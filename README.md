@@ -2,7 +2,7 @@
 
 A command-line application to track and manage tasks, developed in **Java** as part of the [Task Tracker Project](https://roadmap.sh/projects/task-tracker) from **Roadmap.sh**.
 
-I would be grateful if anyone could help me with their upvotes: [My Solution](https://roadmap.sh/projects/task-tracker/solutions?u=66f7e663c45e253cb00d6b67) on Roadmap.sh
+Version with GUI (JavaFX): [Task Tracker GUI](https://github.com/jmsmarcelo/task-tracker-javafx)
 
 ## 📋 Features
 - Add, Update, and Delete tasks

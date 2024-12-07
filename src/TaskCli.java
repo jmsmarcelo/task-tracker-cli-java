@@ -1,6 +1,7 @@
 import java.io.IOException;
 
 public class TaskCli {
+    private static String tableLine = "%1$s────────%2$s────────────────────────────────────────────────────%2$s──────────────%2$s─────────────────────%2$s─────────────────────%3$s";
     private static final TaskService service = new TaskService();
 
     public static void main(String[] args) {
@@ -120,9 +121,13 @@ public class TaskCli {
     private static void handleListCommand(String[] args) {
         try {
             if(args.length == 1) {
-                service.find("all").forEach(System.out::println);
+                printTable(true);
+                service.find("all").forEach(TaskCli::printTable);
+                printTable(false);
             } else if(args.length == 2 && TaskStatus.isValid(args[1])) {
-                service.find(args[1]).forEach(System.out::println);
+                printTable(true);
+                service.find(args[1]).forEach(TaskCli::printTable);
+                printTable(false);
             } else {
                 System.out.print("""
                     invalid command
@@ -137,6 +142,18 @@ public class TaskCli {
                 possible reason:    no permission to read to file
                 """);
         }
+    }
+    private static void printTable(boolean header) {
+        if(header) {
+            System.out.println(tableLine.formatted("┌", "┬", "┐"));
+            System.out.printf("│ %-6s │ %-50s │ %-12s │ %-19s │ %-19s │\n", "  ID", "                   Description", "   Status", "     CreatedAt", "     UpdatedAt");
+        } else {
+            System.out.println(tableLine.formatted("└", "┴", "┘"));
+        }
+    }
+    private static void printTable(Task task) {
+        System.out.println(tableLine.formatted("├", "┼", "┤"));
+        System.out.printf("│ %-6d │ %-50s │ %-12s │ %-19s │ %-19s │\n", task.getId(), task.getDescription(), task.getStatus(), task.getCreatedAt(), task.getUpdatedAt());
     }
     private static void handleHelpCommand() {
         System.out.println("----------------------------- Task Tracker CLI - Help -----------------------------");

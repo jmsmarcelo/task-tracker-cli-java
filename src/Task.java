@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ public class Task {
     private TaskStatus status = TaskStatus.TODO;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public long getId() {
         return id;
@@ -30,14 +32,20 @@ public class Task {
     public void setStatus(String status) {
         this.status = TaskStatus.fromValue(status);
     }
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public String getCreatedAt() {
+        if(createdAt != null) {
+            return createdAt.format(formatter);
+        }
+        return "";
     }
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public String getUpdatedAt() {
+        if(updatedAt != null) {
+            return updatedAt.format(formatter);
+        }
+        return "";
     }
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
@@ -71,11 +79,5 @@ public class Task {
             task.setUpdatedAt(LocalDateTime.parse(maps.get("updatedAt")));
         }
         return task;
-    }
-    @Override
-    public String toString() {
-        return """
-            id: %d, description: %s, status: %s, createdAt: %s, updatedAt: %s"""
-            .formatted(id, description.replaceAll("\\\\+", ""), status.toString(), createdAt, updatedAt);
     }
 }
